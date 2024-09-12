@@ -20,8 +20,8 @@ function AdminMenu() {
                     จัดการรายการซื้อขายลูกค้า
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <li><a class="dropdown-item" href="#">แสดงรายการลูกค้า<br/>ยืนยันการชำระเงิน</a></li>
-                    <li><a class="dropdown-item" href="#">เพิ่ม/แก้ไข/ลบรายการซื้อขายลูกค้า</a></li>
+                    <li><a class="dropdown-item" href="./แสดงรายการซื้อขาย">แสดงรายการซื้อขาย<br/>ยืนยันการชำระเงิน</a></li>
+                    <li><a class="dropdown-item" href="./เพิ่มแก้ไขลบรายการซื้อขาย">เพิ่ม/แก้ไข/ลบรายการซื้อขาย</a></li>
                 </ul>
                 <a class="dropdown-toggle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                     จัดการข้อมูลลูกค้า

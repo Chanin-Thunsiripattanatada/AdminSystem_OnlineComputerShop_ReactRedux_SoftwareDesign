@@ -14,5 +14,6 @@ export const fetchData = () => {
         } catch (error) {
             dispatch({ type: FETCH_DATA_FAILURE, payload: error.message });
         }
+        
     };
 };

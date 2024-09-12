@@ -21,15 +21,15 @@ function ProductForm() {
                                     </div>
                                 </div>
                                 <div class="col-md-2 position-relative">
-                                    <label for="validationTooltip03" class="form-label">Price</label>
-                                    <input type="text" class="form-control" id="validationTooltip03" required />
+                                    <label for="validationTooltip02" class="form-label">Price</label>
+                                    <input type="text" class="form-control" id="validationTooltip02" required />
                                     <div class="invalid-tooltip">
                                         Please provide a valid Price.
                                     </div>
                                 </div>
                                 <div class="col-md-2 position-relative">
-                                    <label for="validationTooltip02" class="form-label">Quantity</label>
-                                    <input type="text" class="form-control" id="validationTooltip02" required />
+                                    <label for="validationTooltip03" class="form-label">StockQuantity</label>
+                                    <input type="text" class="form-control" id="validationTooltip03" required />
                                     <div class="valid-tooltip">
                                         Please provide a valid Quantity.
                                     </div>
@@ -47,20 +47,20 @@ function ProductForm() {
                                     </div>
                                 </div>
                                 <div class="col-md-3 position-relative">
-                                    <label for="validationTooltip02" class="form-label">Description</label>
-                                    <textarea type="text" class="form-control" id="validationTooltip02" style={{ height: '150px' }} rows="4" required />
+                                    <label for="validationTooltip05" class="form-label">Description</label>
+                                    <textarea type="text" class="form-control" id="validationTooltip05" style={{ height: '150px' }} rows="4" required />
                                 </div>      
                                 <div class="col-md-3 position-relative">
-                                    <label for="validationTooltip05" class="form-label">Manufacturer</label>
-                                    <input type="text" class="form-control" id="validationTooltip05"/>
+                                    <label for="validationTooltip06" class="form-label">Manufacturer</label>
+                                    <input type="text" class="form-control" id="validationTooltip06"/>
                                 </div>
                                 <div class="col-md-2 position-relative">
-                                    <label for="validationTooltip05" class="form-label">Warranty Period</label>
-                                    <input type="text" class="form-control" id="validationTooltip05"/>
+                                    <label for="validationTooltip07" class="form-label">Warranty Period</label>
+                                    <input type="text" class="form-control" id="validationTooltip07"/>
                                 </div>
                                 <div class="col-md-5 position-relative">
-                                    <label for="validationTooltip02" class="form-label">Image Url</label>
-                                    <textarea type="text" class="form-control" id="validationTooltip02" style={{ height: '125px' }} rows="4"/>
+                                    <label for="validationTooltip08" class="form-label">Image Url</label>
+                                    <textarea type="text" class="form-control" id="validationTooltip08" style={{ height: '125px' }} rows="4"/>
                                 </div> 
                                 {/* <div class="col-md-2 position-relative">
                                     <label for="validationTooltip04" class="form-label">Rating</label>

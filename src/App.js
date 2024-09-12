@@ -6,6 +6,8 @@ import ProductTablePage from './components/ProductTablePage';
 import { BrowserRouter,Route,Routes } from 'react-router-dom';
 import './App.css';
 import ProductPage from './components/ProductPage';
+import OrderPage from './components/OrderPage';
+import OrderTablePage from './components/OrderTablePage';
 function App() {
   return (
     <div className="App">
@@ -20,6 +22,8 @@ function App() {
               <Route path="เพิ่มแก้ไขเอกสาร" element={<EditDocs />} /> */}
               <Route path="แสดงรายการสินค้า" element={<ProductTablePage />} />
               <Route path="เพิ่มแก้ไขลบรายการสินค้า" element={<ProductPage />} />
+              <Route path="เพิ่มแก้ไขลบรายการซื้อขาย" element={<OrderPage />} />
+              <Route path="แสดงรายการซื้อขาย" element={<OrderTablePage />} />
             </Route>
           </Route>
         </Routes>
