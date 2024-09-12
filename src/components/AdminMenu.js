@@ -27,7 +27,7 @@ function AdminMenu() {
                     จัดการข้อมูลลูกค้า
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <li><Link class="dropdown-item" to="#">แสดงรายการข้อมูลลูกค้า</Link></li>
+                    <li><Link class="dropdown-item" to="./แสดงรายการข้อมูลลูกค้า">แสดงรายการข้อมูลลูกค้า</Link></li>
                 </ul>
                 <Link style={{ color: "red" }}>Logout</Link>
             </div>
