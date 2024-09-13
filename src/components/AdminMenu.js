@@ -7,7 +7,7 @@ function AdminMenu() {
             <div className="sidebar shadow-lg text-center">
                 <p className='prompt-semibold'><img src={require("../assets/images/logo192.png")} width={"100"} /><br />ระบบจัดการร้าน<br />ComCraft
                 </p>
-                <p style={{ backgroundColor: "grey" }} className='prompt-semibold'>ผู้ใช้งาน<br></br>
+                <p style={{ backgroundColor: "grey" }} className='prompt-semibold'>ผู้ใช้งาน : <br/>
                 </p>
                 <a class="dropdown-toggle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                     จัดการข้อมูลสินค้า
@@ -33,7 +33,6 @@ function AdminMenu() {
             </div>
             <Outlet />
         </>
-
     );
 }
 

@@ -1,11 +1,11 @@
 import logo from './logo.svg';
 import Login from './components/Login';
 import AdminMenu from './components/AdminMenu';
-import ProductForm from './components/ProductForm';
-import ProductTablePage from './components/ProductTablePage';
+import ProductForm from './components/ProductPage/AddProduct/ProductForm';
+import ProductTablePage from './components/ProductPage/ProductTablePage';
 import { BrowserRouter,Route,Routes } from 'react-router-dom';
 import './App.css';
-import ProductPage from './components/ProductPage';
+import ProductPage from './components/ProductPage/AddProductPage';
 function App() {
   return (
     <div className="App">
