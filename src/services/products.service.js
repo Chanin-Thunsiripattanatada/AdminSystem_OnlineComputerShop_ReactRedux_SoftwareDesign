@@ -1,10 +1,7 @@
 import http from "../http-common";
 
 class ProductDataService {
-  // Helper method to set Authorization header
-//   setAuthHeader(token) {
-//     return { headers: { Authorization: `Bearer ${token}` } };
-//   }
+
 
   getAll() {
     return http.get("/products");
@@ -14,16 +11,28 @@ class ProductDataService {
     return http.get(`/products/${id}`);
   }
 
-  create(data) {
-    return http.post("/admin/products", data);
+  create(token, data) {
+    return http.post("/admin/products", data, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
   }
 
-  update(id, data) {
-    return http.put(`/admin/products/${id}`, data);
+  update(token, id, data) {
+    return http.put(`/admin/products/${id}`, data, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
   }
 
-  delete(id, token) {
-    return http.delete(`/admin/products/${id}`);
+  delete(token, id) {
+    return http.delete(`/admin/products/${id}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
   }
 
 }

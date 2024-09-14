@@ -7,27 +7,31 @@ const ViewModal = ({ show, handleClose, modaldata }) => (
             <Modal.Title>View Product</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            {modaldata && (
-                <div>
-                    <h5>Title: {modaldata.title}</h5>
-                    <div className='card'>
-                        <div className='card-content' dangerouslySetInnerHTML={{ __html: modaldata.description }} />
-                    </div>
+            {modaldata ? (
+                <>
                     <p>
-                        {modaldata.created && modaldata.created.toDate().toLocaleTimeString('th-TH', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric',
-                        })}
+                        {modaldata.image && modaldata.image.imageData ? (
+                            <>
+                            <img
+                                src={`http://localhost:8080/image/${modaldata.image.id}`}
+                                alt={modaldata.name || 'Product Image'}
+                                style={{ width: '100px', height: 'auto' }}
+                            />
+                            
+                            </>
+                        ) : (
+                            <span>No Image</span>
+                        )}
                     </p>
-                    <h6>Main Image</h6>
-                    <img className="img-fluid" src={modaldata.image} alt="Main" /><hr />
-                    <h6>Additional Images</h6>
-                    {modaldata.listimage && modaldata.listimage.map((image, index) => (
-                        <img key={index} className="img-fluid" src={image} alt={`Additional ${index}`} />
-                    ))}
-                </div>
-            )}
+                    <p><strong>Product ID:</strong> {modaldata.modaldataId}</p>
+                    <p><strong>Name:</strong> {modaldata.name}</p>
+                    <p><strong>Stock Quantity:</strong> {modaldata.stockQuantity}</p>
+                    <p><strong>Category:</strong> {modaldata.category.categoryName}</p>
+                    <p><strong>Manufacturer:</strong> {modaldata.manufacturer}</p>
+                    <p><strong>Rating:</strong> {modaldata.rating}</p>
+                </>
+            ) : (<>Not Found</>)}
+
         </Modal.Body>
         <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>

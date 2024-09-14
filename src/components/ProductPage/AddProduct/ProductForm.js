@@ -1,34 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Button, Form, Row, Col } from 'react-bootstrap';
-
-const ProductForm = ({ product, onSave, onClose }) => {
+import { createProduct } from '../../../actions/products';
+import { useDispatch } from 'react-redux';
+import { useAuth } from '../../../auth/AuthContext';
+const ProductForm = () => {
+    const dispatch = useDispatch();
+    const { token } = useAuth();
     const [formData, setFormData] = useState({
         name: '',
-        category: '',
+        categoryId: '',
         description: '',
-        imageUrl: '',
         manufacturer: '',
         price: '',
         rating: '',
         stockQuantity: '',
         warrantyPeriod: ''
     });
-
-    useEffect(() => {
-        if (product) {
-            setFormData({
-                name: product.name || '',
-                category: product.category.categoryName || '',
-                description: product.description || '',
-                imageUrl: product.imageUrl || '',
-                manufacturer: product.manufacturer || '',
-                price: product.price || '',
-                rating: product.rating || '',
-                stockQuantity: product.stockQuantity || '',
-                warrantyPeriod: product.warrantyPeriod || ''
-            });
-        }
-    }, [product]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -40,7 +27,31 @@ const ProductForm = ({ product, onSave, onClose }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        onSave(formData);
+        console.log(formData);
+        const productData = {
+            name: formData.name,
+            category: {
+                categoryId: formData.categoryId
+            },
+            description: formData.description,
+            manufacturer: formData.manufacturer,
+            price: formData.price,
+            rating: formData.rating,
+            stockQuantity: formData.stockQuantity,
+            warrantyPeriod: formData.warrantyPeriod,
+            imageUrl: formData.imageUrl
+        };
+        dispatch(createProduct(token, productData));
+        setFormData({
+            name: '',
+            categoryId: '',
+            description: '',
+            manufacturer: '',
+            price: '',
+            rating: '',
+            stockQuantity: '',
+            warrantyPeriod: ''
+        });
     };
 
     return (
@@ -68,8 +79,8 @@ const ProductForm = ({ product, onSave, onClose }) => {
                                 <Form.Control
                                     type="text"
                                     placeholder="Enter category"
-                                    name="category"
-                                    value={formData.category}
+                                    name="categoryId"
+                                    value={formData.categoryId}
                                     onChange={handleChange}
                                     required
                                 />
@@ -104,7 +115,7 @@ const ProductForm = ({ product, onSave, onClose }) => {
                                     name="imageUrl"
                                     value={formData.imageUrl}
                                     onChange={handleChange}
-                                    required
+
                                 />
                             </Form.Group>
                         </Col>
@@ -165,10 +176,10 @@ const ProductForm = ({ product, onSave, onClose }) => {
                             </Form.Group>
                         </Col>
                     </Row>
-                    <br/>
+                    <br />
                     <div className="d-flex justify-content-center">
-                        <Button variant="secondary" onClick={onClose} className="me-2">
-                            Cancel
+                        <Button variant="secondary" type="reset" className="me-2">
+                            Reset
                         </Button>
                         <Button variant="primary" type="submit">
                             Save Changes
