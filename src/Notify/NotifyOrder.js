@@ -7,7 +7,7 @@ const WebSocketNotification = () => {
 
     useEffect(() => {
         // Create WebSocket connection
-        const socket = new WebSocket('ws://localhost:8080/ws'); // WebSocket endpoint from your Spring Boot app
+        const socket = new WebSocket('http://localhost:8080/ws'); // WebSocket endpoint from your Spring Boot app
 
         // Listen for messages
         socket.onmessage = (event) => {
