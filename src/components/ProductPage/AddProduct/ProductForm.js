@@ -98,6 +98,8 @@ const ProductForm = () => {
 
     useEffect(() => {
         dispatch(retrieveCategorys());
+        setFile(null);
+        setFileupload(null);
     }, [dispatch]);
 
     return (

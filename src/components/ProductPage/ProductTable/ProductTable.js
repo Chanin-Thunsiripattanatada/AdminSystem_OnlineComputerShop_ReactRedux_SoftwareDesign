@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { retrieveProducts } from '../../../actions/products';
-import { Button } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import ViewModal from './ViewModal';
 import EditModal from './EditModal';
 import DeleteModal from './DeleteModal';
@@ -16,6 +16,11 @@ const ProductTable = () => {
 
     const [modalId, setModalId] = useState('');
     const [modalData, setModalData] = useState(null);
+
+    // Filter state
+    const [filterName, setFilterName] = useState('');
+    const [filterCategory, setFilterCategory] = useState('');
+    const [filterManufacturer, setFilterManufacturer] = useState('');
 
     const handleCloseView = () => setShowView(false);
     const handleShowView = (product) => {
@@ -38,15 +43,54 @@ const ProductTable = () => {
     const handleRefreshProducts = async () => {
         dispatch(retrieveProducts());
     };
+
     useEffect(() => {
         handleRefreshProducts();
     }, [dispatch]);
+
+    // Filtered products based on user input
+    const filteredProducts = products.filter((product) => {
+        return (
+            (filterName === '' || product.name.toLowerCase().includes(filterName.toLowerCase())) &&
+            (filterCategory === '' || product.category.categoryName.toLowerCase().includes(filterCategory.toLowerCase())) &&
+            (filterManufacturer === '' || product.manufacturer.toLowerCase().includes(filterManufacturer.toLowerCase()))
+        );
+    });
 
     return (
         <div class="card shadow-lg bg-body rounded">
             <h4 class="card-header">ข้อมูลรายการสินค้า</h4>
             <div class="card-body">
                 <div className="crud">
+
+                    {/* Filter inputs */}
+                    <div className="row mb-3">
+                        <div className="col-md-4">
+                            <Form.Control
+                                type="text"
+                                placeholder="Filter by name"
+                                value={filterName}
+                                onChange={(e) => setFilterName(e.target.value)}
+                            />
+                        </div>
+                        <div className="col-md-4">
+                            <Form.Control
+                                type="text"
+                                placeholder="Filter by category"
+                                value={filterCategory}
+                                onChange={(e) => setFilterCategory(e.target.value)}
+                            />
+                        </div>
+                        <div className="col-md-4">
+                            <Form.Control
+                                type="text"
+                                placeholder="Filter by manufacturer"
+                                value={filterManufacturer}
+                                onChange={(e) => setFilterManufacturer(e.target.value)}
+                            />
+                        </div>
+                    </div>
+
                     <div className="row">
                         <div className="table-responsive">
                             <table className="table table-striped table-hover table-bordered">
@@ -64,7 +108,7 @@ const ProductTable = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {products.map((product, index) => (
+                                    {filteredProducts.map((product, index) => (
                                         <tr key={index}>
                                             <td>{index + 1}</td>
                                             <td>
@@ -77,7 +121,6 @@ const ProductTable = () => {
                                                 ) : (
                                                     <span>No Image</span>
                                                 )}
-
                                             </td>
                                             <td>{product.productId}</td>
                                             <td>{product.name}</td>
@@ -98,7 +141,6 @@ const ProductTable = () => {
                             </table>
                         </div>
                     </div>
-
 
                     <ViewModal show={showView} handleClose={handleCloseView} modaldata={modalData} />
                     <EditModal show={showEdit} handleClose={handleCloseEdit} modaldata={modalData} refreshProducts={handleRefreshProducts} />

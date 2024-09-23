@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { retrieveCustomers, deleteCustomer, updateCustomer } from '../../../actions/customers';
-import { Button } from 'react-bootstrap';
-import ViewModal from './ViewModal';
-import EditModal from './EditModal';
-import DeleteModal from './DeleteModal';
+import { retrieveCustomers } from '../../../actions/customers';
 import { useAuth } from '../../../auth/AuthContext';
 
 const CustomerTable = () => {
@@ -18,6 +14,9 @@ const CustomerTable = () => {
 
     const [modalId, setModalId] = useState('');
     const [modalData, setModalData] = useState(null);
+    
+    const [sortOrder, setSortOrder] = useState('asc');
+    const [searchTerm, setSearchTerm] = useState('');
 
     const handleCloseView = () => setShowView(false);
     const handleShowView = (customer) => {
@@ -38,26 +37,41 @@ const CustomerTable = () => {
     };
 
     useEffect(() => {
-        const logdata = () => { console.log(token) }
-        logdata();
         dispatch(retrieveCustomers(token));
-
     }, [dispatch]);
 
-    // const handleDelete = () => {
-    //     dispatch(deleteCustomer(modalId));
-    //     handleCloseDelete();
-    // };
+    const handleSort = (column) => {
+        const newOrder = sortOrder === 'asc' ? 'desc' : 'asc';
+        setSortOrder(newOrder);
+        // Sort customers based on column and order
+        customers.sort((a, b) => {
+            const aValue = a[column].toString().toLowerCase();
+            const bValue = b[column].toString().toLowerCase();
+            return newOrder === 'asc' ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
+        });
+    };
 
-    // const handleSaveEdit = (updatedCustomer) => {
-    //     dispatch(updateCustomer(modalData.customerId, updatedCustomer));
-    //     handleCloseEdit();
-    // };
+    const filteredCustomers = customers.filter((customer) => {
+        return (
+            customer.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            customer.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            customer.email.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+    });
 
     return (
-        <div class="card shadow-lg bg-body rounded">
-            <h4 class="card-header">ข้อมูลรายการข้อมูลลูกค้า</h4>
-            <div class="card-body">
+        <div className="card shadow-lg bg-body rounded">
+            <h4 className="card-header">ข้อมูลรายการข้อมูลลูกค้า</h4>
+            <div className="card-body">
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Search by name or email"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                </div>
                 <div className="crud">
                     <div className="row">
                         <div className="table-responsive">
@@ -65,9 +79,9 @@ const CustomerTable = () => {
                                 <thead>
                                     <tr>
                                         <th>Customer ID</th>
-                                        <th>First Name</th>
-                                        <th>Last Name</th>
-                                        <th>Email</th>
+                                        <th onClick={() => handleSort('firstName')}>First Name</th>
+                                        <th onClick={() => handleSort('lastName')}>Last Name</th>
+                                        <th onClick={() => handleSort('email')}>Email</th>
                                         <th>Username</th>
                                         <th>User Email</th>
                                         <th>Role</th>
@@ -76,7 +90,7 @@ const CustomerTable = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {customers.map((customer) => (
+                                    {filteredCustomers.map((customer) => (
                                         <tr key={customer.customerId}>
                                             <td>{customer.customerId}</td>
                                             <td>{customer.firstName}</td>
@@ -93,11 +107,6 @@ const CustomerTable = () => {
                             </table>
                         </div>
                     </div>
-
-
-                    {/* <ViewModal show={showView} handleClose={handleCloseView} modaldata={modalData} />
-                    <EditModal show={showEdit} handleClose={handleCloseEdit} modaldata={modalData} onSave={handleSaveEdit} />
-                    <DeleteModal show={showDelete} handleClose={handleCloseDelete} onDelete={handleDelete} /> */}
                 </div>
             </div>
         </div>

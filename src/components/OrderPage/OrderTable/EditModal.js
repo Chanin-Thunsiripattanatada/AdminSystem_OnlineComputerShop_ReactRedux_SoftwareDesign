@@ -5,25 +5,25 @@ import { updateOrder } from '../../../actions/orders';
 import { useAuth } from '../../../auth/AuthContext';
 
 const EditModal = ({ show, handleClose, modaldata }) => {
-    // Initialize state with modaldata or default values
     const dispatch = useDispatch();
     const { token } = useAuth();
+
     const [formData, setFormData] = useState({
-        status: modaldata?.status || '',
-        shippingStatus: modaldata?.shippingStatus || '',
-        adminNote: modaldata?.adminNote || '',
+        status: '',
+        shippingStatus: '',
+        adminNote: '',
     });
+
     useEffect(() => {
         if (modaldata) {
             setFormData({
-                status: modaldata?.status || '',
-                shippingStatus: modaldata?.shippingStatus || '',
-                adminNote: modaldata?.adminNote || '',
+                status: modaldata.status || '',
+                shippingStatus: modaldata.shippingStatus || '',
+                adminNote: modaldata.adminNote || '',
             });
         }
     }, [modaldata]);
 
-    // Handle form field changes
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({
@@ -32,28 +32,20 @@ const EditModal = ({ show, handleClose, modaldata }) => {
         }));
     };
 
-    // Handle save button click
     const handleSave = async (e) => {
         e.preventDefault();
+        const updatedData = {
+            ...modaldata,
+            ...formData,
+            // Ensure other properties remain unchanged if necessary
+        };
+
         try {
-            const data = {
-                customer: {
-                    customerId: modaldata?.customer.customerId || ''
-                },
-                orderDate: modaldata?.orderDate || '',
-                totalAmount: modaldata?.totalAmount || '',
-                shippingStatus: formData.shippingStatus || '',
-                status: formData.status || '',
-                privateImage: modaldata?.privateImage?.id ? { id: modaldata.privateImage.id } : null,
-                adminNote: formData.adminNote,
-                orderItems: modaldata?.orderItems || []
-            };
-            console.log(data);
-            await dispatch(updateOrder(token, modaldata.orderId, data));
+            const response = dispatch(updateOrder(token, modaldata.orderId, updatedData));
+            console.log(response.data)
             handleClose();
         } catch (error) {
-            console.log(error);
-
+            console.error('Error updating order:', error);
         }
     };
 
@@ -64,29 +56,28 @@ const EditModal = ({ show, handleClose, modaldata }) => {
             </Modal.Header>
             <Modal.Body>
                 <Form>
-                    {modaldata?.privateImage && modaldata.privateImage.id ? (
-                        <>
-                            <center><img src={`http://localhost:8080/api/privateimage/${modaldata.privateImage.id}`} className='img-fluid mt-2' alt="Preview" /></center>
-                        </>
-                    ) : (<><center><h2>ยังไม่ยืนยัน</h2></center></>)
-                    }
+                    {modaldata?.privateImage?.id && (
+                        <center>
+                            <img
+                                src={`http://localhost:8080/api/privateimage/${modaldata.privateImage.id}`}
+                                className='img-fluid mt-2'
+                                alt="Preview"
+                            />
+                        </center>
+                    )}
                     <Form.Group as={Row} controlId="formOrderStatus">
                         <Form.Label column sm={3}>สถานะการสั่งซื้อ</Form.Label>
                         <Col sm={9}>
                             <Form.Control
                                 as="select"
                                 name="status"
-                                value={formData.status}  // กำหนดค่าเริ่มต้น
-                                onChange={handleChange}  // ฟังก์ชันเมื่อมีการเปลี่ยนแปลง
+                                value={formData.status}
+                                onChange={handleChange}
                             >
-                                <option value="Pending Payment">รอชำระเงิน (Pending Payment)</option>
-                                <option value="Paid">ชำระเงินแล้ว (Paid)</option>
-                                <option value="Processing">กำลังดำเนินการ (Processing)</option>
-                                <option value="Shipped">ส่งสินค้าแล้ว (Shipped)</option>
-                                <option value="Completed">สำเร็จ (Completed)</option>
-                                <option value="Cancelled">ยกเลิก (Cancelled)</option>
-                                <option value="Refunded">คืนเงิน (Refunded)</option>
-                                <option value="Failed">ล้มเหลว (Failed)</option>
+                                <option value="รอการยืนยัน">รอการยืนยัน</option>
+                                <option value="กำลังตรวจสอบ">กำลังตรวจสอบ</option>
+                                <option value="ชำระเงินแล้ว">ชำระเงินแล้ว</option>
+                                <option value="ยกเลิกการสั่งซื้อ">ยกเลิกการสั่งซื้อ</option>
                             </Form.Control>
                         </Col>
                     </Form.Group>
@@ -97,15 +88,12 @@ const EditModal = ({ show, handleClose, modaldata }) => {
                             <Form.Control
                                 as="select"
                                 name="shippingStatus"
-                                value={formData.shippingStatus}  // กำหนดค่าเริ่มต้น
-                                onChange={handleChange}  // ฟังก์ชันเมื่อมีการเปลี่ยนแปลง
+                                value={formData.shippingStatus}
+                                onChange={handleChange}
                             >
-                                <option value="Preparing Shipment">กำลังเตรียมสินค้า (Preparing Shipment)</option>
-                                <option value="In Transit">กำลังจัดส่ง (In Transit)</option>
-                                <option value="Out for Delivery">ถึงปลายทางแล้ว (Out for Delivery)</option>
-                                <option value="Delivered">จัดส่งสำเร็จ (Delivered)</option>
-                                <option value="Returned">ส่งคืนผู้ขาย (Returned)</option>
-                                <option value="Undeliverable">ไม่สามารถจัดส่งได้ (Undeliverable)</option>
+                                <option value="ยังไม่จัดส่ง">ยังไม่จัดส่ง</option>
+                                <option value="ส่งสินค้าแล้ว">ส่งสินค้าแล้ว</option>
+                                <option value="จัดส่งถึงที่แล้ว">จัดส่งถึงที่แล้ว</option>
                             </Form.Control>
                         </Col>
                     </Form.Group>
@@ -114,7 +102,8 @@ const EditModal = ({ show, handleClose, modaldata }) => {
                         <Form.Label column sm={3}>โน็ตแอดมิน</Form.Label>
                         <Col md={6} pd={2}>
                             <Form.Control
-                                as="textarea" rows={3}
+                                as="textarea"
+                                rows={3}
                                 name="adminNote"
                                 value={formData.adminNote}
                                 onChange={handleChange}
@@ -122,17 +111,11 @@ const EditModal = ({ show, handleClose, modaldata }) => {
                             />
                         </Col>
                     </Form.Group>
-
-                    {/* Add more form fields as needed */}
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
-                    Close
-                </Button>
-                <Button variant="primary" onClick={handleSave}>
-                    Save Changes
-                </Button>
+                <Button variant="secondary" onClick={handleClose}>Close</Button>
+                <Button variant="primary" onClick={handleSave}>Save Changes</Button>
             </Modal.Footer>
         </Modal>
     );
