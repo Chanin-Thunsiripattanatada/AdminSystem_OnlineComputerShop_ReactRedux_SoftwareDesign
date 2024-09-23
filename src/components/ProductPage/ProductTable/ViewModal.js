@@ -13,7 +13,7 @@ const ViewModal = ({ show, handleClose, modaldata }) => (
                         {modaldata.image && modaldata.image.imageData ? (
                             <>
                             <img
-                                src={`http://localhost:8080/image/${modaldata.image.id}`}
+                                src={`http://localhost:8080/api/image/${modaldata.image.id}`}
                                 alt={modaldata.name || 'Product Image'}
                                 style={{ width: '100px', height: 'auto' }}
                             />

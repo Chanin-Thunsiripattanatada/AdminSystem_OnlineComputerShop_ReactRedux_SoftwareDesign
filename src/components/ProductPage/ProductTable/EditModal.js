@@ -1,38 +1,53 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Modal, Form, Row, Col } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useAuth } from '../../../auth/AuthContext';
 import { updateProduct } from '../../../actions/products';
-const EditModal = ({ show, handleClose, modaldata ,refreshProducts}) => {
+import { retrieveCategorys } from '../../../actions/categories';
+// import { createImage, deleteImage } from '../../../actions/images';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+
+
+const EditModal = ({ show, handleClose, modaldata, refreshProducts }) => {
     const dispatch = useDispatch();
+    const categories = useSelector((state) => state.categories);
     const { token } = useAuth();
+
     const [productId, setProductId] = useState('');
     const [formData, setFormData] = useState({
         name: '',
         categoryId: '',
         description: '',
-        imageUrl: '',
         manufacturer: '',
         price: '',
         rating: '',
         stockQuantity: '',
-        warrantyPeriod: ''
+        warrantyPeriod: '',
     });
 
+    const [file, setFile] = useState(null);
+    const [fileupload, setFileupload] = useState(null);
+    const [imageId, setImageId] = useState(null);
+
     useEffect(() => {
+        dispatch(retrieveCategorys());
         if (modaldata) {
             setFormData({
                 name: modaldata.name || '',
                 categoryId: modaldata.category.categoryId || '',
                 description: modaldata.description || '',
-                imageUrl: modaldata.imageUrl || '',
                 manufacturer: modaldata.manufacturer || '',
                 price: modaldata.price || '',
                 rating: modaldata.rating || '',
                 stockQuantity: modaldata.stockQuantity || '',
-                warrantyPeriod: modaldata.warrantyPeriod || ''
+                warrantyPeriod: modaldata.warrantyPeriod || '',
             });
             setProductId(modaldata.productId);
+            setImageId(modaldata.image?.id || null);
+            console.log(imageId);
+            setFile(null);
+            setFileupload(null);
         }
     }, [modaldata]);
 
@@ -41,15 +56,17 @@ const EditModal = ({ show, handleClose, modaldata ,refreshProducts}) => {
             name: modaldata.name || '',
             categoryId: modaldata.category.categoryId || '',
             description: modaldata.description || '',
-            imageUrl: modaldata.imageUrl || '',
             manufacturer: modaldata.manufacturer || '',
             price: modaldata.price || '',
             rating: modaldata.rating || '',
             stockQuantity: modaldata.stockQuantity || '',
-            warrantyPeriod: modaldata.warrantyPeriod || ''
+            warrantyPeriod: modaldata.warrantyPeriod || '',
         });
-    }
-    // ฟังก์ชันสำหรับจัดการการบันทึกข้อมูล
+        setFile(null);
+        setFileupload(null);
+        setImageId(modaldata.image?.id || null);
+    };
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -58,9 +75,31 @@ const EditModal = ({ show, handleClose, modaldata ,refreshProducts}) => {
         });
     };
 
+    const handleChangeImage = (e) => {
+        e.preventDefault();
+        if (e.target.files.length !== 0) {
+            setFile(URL.createObjectURL(e.target.files[0]));
+            setFileupload(e.target.files[0]);
+        } else {
+            setFile(null);
+            setFileupload(null);
+        }
+    };
+
+    const handleDeleteImage = async (e) => {
+        e.preventDefault();
+        setImageId(null);
+        setFile(null);
+        setFileupload(null);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const productData = {
+        // Create FormData object
+        const formDataToSend = new FormData();
+
+        // Append product JSON and image file
+        formDataToSend.append('product', JSON.stringify({
             name: formData.name,
             category: {
                 categoryId: formData.categoryId
@@ -71,16 +110,21 @@ const EditModal = ({ show, handleClose, modaldata ,refreshProducts}) => {
             rating: formData.rating,
             stockQuantity: formData.stockQuantity,
             warrantyPeriod: formData.warrantyPeriod,
-            imageUrl: formData.imageUrl
-        };
+        }));
+
+        if (fileupload) {
+            formDataToSend.append('imageFile', fileupload);
+        } else if (imageId) {
+            formDataToSend.append('image', JSON.stringify({ id: imageId }));
+        }
+
         try {
-            await dispatch(updateProduct(token, productId, productData));
+            await dispatch(updateProduct(token, productId, formDataToSend));
             refreshProducts(); // Refresh the table data
             handleClose(); // Close the modal
         } catch (error) {
             console.error("Failed to update product:", error);
         }
-
     };
 
     return (
@@ -108,13 +152,19 @@ const EditModal = ({ show, handleClose, modaldata ,refreshProducts}) => {
                             <Form.Group controlId="formCategory">
                                 <Form.Label>ประเภทสินค้า</Form.Label>
                                 <Form.Control
-                                    type="text"
-                                    placeholder="Enter category"
-                                    name="category"
+                                    as="select"
+                                    name="categoryId"
                                     value={formData.categoryId}
                                     onChange={handleChange}
                                     required
-                                />
+                                >
+                                    <option value="">--Select a category--</option>
+                                    {categories.map(category => (
+                                        <option key={category.categoryId} value={category.categoryId}>
+                                            {category.categoryName}
+                                        </option>
+                                    ))}
+                                </Form.Control>
                             </Form.Group>
                         </Col>
                     </Row>
@@ -123,14 +173,16 @@ const EditModal = ({ show, handleClose, modaldata ,refreshProducts}) => {
                         <Col>
                             <Form.Group controlId="formDescription">
                                 <Form.Label>รายละเอียด</Form.Label>
-                                <Form.Control
-                                    as="textarea"
-                                    rows={3}
-                                    placeholder="Enter description"
-                                    name="description"
+                                <ReactQuill
+                                    theme="snow"
                                     value={formData.description}
-                                    onChange={handleChange}
-                                    required
+                                    onChange={(value) => setFormData(prevData => ({
+                                        ...prevData,
+                                        description: value
+                                    }))}
+                                    modules={editorModules}
+                                    formats={editorFormats}
+                                    placeholder="Enter description"
                                 />
                             </Form.Group>
                         </Col>
@@ -138,16 +190,24 @@ const EditModal = ({ show, handleClose, modaldata ,refreshProducts}) => {
 
                     <Row className="mb-3">
                         <Col md={6}>
-                            <Form.Group controlId="formImageUrl">
-                                <Form.Label>รูปภาพ</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    placeholder="Enter image URL"
-                                    name="imageUrl"
-                                    value={formData.imageUrl}
-                                    onChange={handleChange}
-                                    
-                                />
+                            <Form.Group controlId="fileinput">
+                                <Form.Label>รูปหลัก</Form.Label>
+                                {!imageId && (<>
+                                    <Form.Control
+                                        type="file"
+                                        accept="image/jpeg, image/png, image/jpg"
+                                        onChange={handleChangeImage}
+                                        required
+                                    />
+                                    {file && <img src={file} className='img-fluid mt-2' alt="Preview" />}
+                                </>)}
+                                {imageId && (
+                                    <>
+                                        <img src={`http://localhost:8080/api/image/${imageId}`} className='img-fluid mt-2' alt="Preview" />
+                                        <Button variant="danger" onClick={handleDeleteImage}>Delete</Button>
+                                    </>
+                                )
+                                }
                             </Form.Group>
                         </Col>
                         <Col md={6}>
@@ -193,7 +253,7 @@ const EditModal = ({ show, handleClose, modaldata ,refreshProducts}) => {
                                 />
                             </Form.Group>
                         </Col>
-                        <Col mb={4}>
+                        <Col md={4}>
                             <Form.Group controlId="formWarrantyPeriod">
                                 <Form.Label>เวลารับประกัน (เดือน)</Form.Label>
                                 <Form.Control
@@ -223,5 +283,22 @@ const EditModal = ({ show, handleClose, modaldata ,refreshProducts}) => {
         </Modal>
     );
 };
+
+// Optionally define the modules and formats for React Quill
+const editorModules = {
+    toolbar: [
+        [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
+        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+        ['bold', 'italic', 'underline'],
+        ['link', 'image'],
+        [{ 'align': [] }],
+        ['clean']
+    ],
+};
+
+const editorFormats = [
+    'header', 'font', 'list', 'bullet', 'bold', 'italic', 'underline',
+    'link', 'image', 'align', 'clean'
+];
 
 export default EditModal;

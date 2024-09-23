@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { retrieveProducts} from '../../../actions/products';
+import { retrieveProducts } from '../../../actions/products';
 import { Button } from 'react-bootstrap';
 import ViewModal from './ViewModal';
 import EditModal from './EditModal';
@@ -34,7 +34,7 @@ const ProductTable = () => {
         setModalId(id);
         setShowDelete(true);
     };
-    
+
     const handleRefreshProducts = async () => {
         dispatch(retrieveProducts());
     };
@@ -70,13 +70,14 @@ const ProductTable = () => {
                                             <td>
                                                 {product.image && product.image.imageData ? (
                                                     <img
-                                                    src={`http://localhost:8080/image/${product.image.id}`}
+                                                        src={`http://localhost:8080/api/image/${product.image.id}`}
                                                         alt={product.name || 'Product Image'}
                                                         style={{ width: '100px', height: 'auto' }}
                                                     />
                                                 ) : (
                                                     <span>No Image</span>
                                                 )}
+
                                             </td>
                                             <td>{product.productId}</td>
                                             <td>{product.name}</td>
@@ -97,7 +98,7 @@ const ProductTable = () => {
                             </table>
                         </div>
                     </div>
-                    
+
 
                     <ViewModal show={showView} handleClose={handleCloseView} modaldata={modalData} />
                     <EditModal show={showEdit} handleClose={handleCloseEdit} modaldata={modalData} refreshProducts={handleRefreshProducts} />

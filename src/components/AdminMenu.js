@@ -29,21 +29,20 @@ function AdminMenu() {
                     จัดการข้อมูลสินค้า
                 </Link>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <li><Link class="dropdown-item" to="./แสดงรายการสินค้า">แสดงรายการสินค้า</Link></li>
-                    <li><Link class="dropdown-item" to="./เพิ่มแก้ไขลบรายการสินค้า">เพิ่ม/แก้ไข/ลบรายการสินค้า</Link></li>
+                    <li><Link class="dropdown-item" to="./จัดการรายการสินค้า">จัดการรายการสินค้า</Link></li>
+                    <li><Link class="dropdown-item" to="./เพิ่มรายการสินค้า">เพิ่มรายการสินค้า</Link></li>
                 </ul>
                 <Link class="dropdown-toggle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                     จัดการรายการซื้อขายลูกค้า
                 </Link>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <li><Link class="dropdown-item" to="./แสดงรายการลูกค้า">แสดงรายการลูกค้า<br />ยืนยันการชำระเงิน</Link></li>
-                    <li><Link class="dropdown-item" to="./เพิ่มแก้ไขลบรายการซื้อขายลูกค้า">เพิ่ม/แก้ไข/ลบรายการซื้อขายลูกค้า</Link></li>
+                    <li><Link class="dropdown-item" to="./จัดการรายการซื้อขายลูกค้า">จัดการรายการซื้อขายลูกค้า<br />ยืนยันการชำระเงิน</Link></li>
                 </ul>
                 <Link class="dropdown-toggle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                     จัดการข้อมูลลูกค้า
                 </Link>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <li><Link class="dropdown-item" to="./แสดงรายการข้อมูลลูกค้า">แสดงรายการข้อมูลลูกค้า</Link></li>
+                    <li><Link class="dropdown-item" to="./จัดการรายการลูกค้า">จัดการรายการลูกค้า</Link></li>
                 </ul>
                 <Link style={{ color: "red" }} onClick={handleSubmitLogout}>Logout</Link>
             </div>

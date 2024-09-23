@@ -28,3 +28,8 @@ export const RETRIEVE_ORDERS = "RETRIEVE_ORDERS";
 export const UPDATE_ORDER = "UPDATE_ORDER";
 export const DELETE_ORDER = "DELETE_ORDER";
 export const DELETE_ALL_ORDERS = "DELETE_ALL_ORDERS";
+
+// Image Action
+export const CREATE_IMAGE = "CREATE_IMAGE";
+export const GET_IMAGE = "GET_IMAGE";
+export const DELETE_IMAGE = "DELETE_IMAGE";

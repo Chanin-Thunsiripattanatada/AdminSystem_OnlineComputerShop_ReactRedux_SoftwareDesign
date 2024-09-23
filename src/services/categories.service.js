@@ -2,12 +2,8 @@ import http from "../http-common";
 
 class CategoryDataService {
 
-    getAll(token) {
-        return http.get("/categories", {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
+    async getAll(token) {
+        return http.get("/categories");
     }
 
     get(token, id) {

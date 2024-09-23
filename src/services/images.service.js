@@ -1,5 +1,4 @@
 import http from "../http-common";
-
 class ImageDataService {
 
     get(token, id) {
@@ -13,20 +12,19 @@ class ImageDataService {
     create(token, data) {
         return http.post("/image", data, {
             headers: {
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'multipart/form-data'
             }
         });
     }
 
-    // API ยังไม่สร้าง
-    
-    // delete(token, id) {
-    //     return http.delete(`/user/customers/${id}`, {
-    //         headers: {
-    //             'Authorization': `Bearer ${token}`
-    //         }
-    //     });
-    // }
+    delete(token, id) {
+        return http.delete(`/admin/image/${id}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+    }
 
 }
 

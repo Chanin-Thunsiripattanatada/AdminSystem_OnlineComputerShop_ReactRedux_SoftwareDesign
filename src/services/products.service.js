@@ -11,18 +11,20 @@ class ProductDataService {
     return http.get(`/products/${id}`);
   }
 
-  create(token, data) {
-    return http.post("/admin/products", data, {
+  create(token, formData) {
+    return http.post('/admin/products', formData, {
       headers: {
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data'
       }
     });
   }
 
-  update(token, id, data) {
-    return http.put(`/admin/products/${id}`, data, {
+  update(token, id, formData) {
+    return http.put(`/admin/products/${id}`, formData, {
       headers: {
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data'
       }
     });
   }

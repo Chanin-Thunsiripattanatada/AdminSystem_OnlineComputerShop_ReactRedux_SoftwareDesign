@@ -1,7 +1,7 @@
 import React from "react";
 import ProductForm from "./AddProduct/ProductForm";
 
-function ProductPage() {
+function AddProductPage() {
     return (
         <main>
             <div className="container">
@@ -12,4 +12,4 @@ function ProductPage() {
         </main>
     );
 }
-export default ProductPage;
+export default AddProductPage;
