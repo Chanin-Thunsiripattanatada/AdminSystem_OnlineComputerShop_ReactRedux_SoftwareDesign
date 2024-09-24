@@ -21,7 +21,6 @@ const EditModal = ({ show, handleClose, modaldata, refreshProducts }) => {
         description: '',
         manufacturer: '',
         price: '',
-        rating: '',
         stockQuantity: '',
         warrantyPeriod: '',
     });
@@ -39,7 +38,6 @@ const EditModal = ({ show, handleClose, modaldata, refreshProducts }) => {
                 description: modaldata.description || '',
                 manufacturer: modaldata.manufacturer || '',
                 price: modaldata.price || '',
-                rating: modaldata.rating || '',
                 stockQuantity: modaldata.stockQuantity || '',
                 warrantyPeriod: modaldata.warrantyPeriod || '',
             });
@@ -58,7 +56,6 @@ const EditModal = ({ show, handleClose, modaldata, refreshProducts }) => {
             description: modaldata.description || '',
             manufacturer: modaldata.manufacturer || '',
             price: modaldata.price || '',
-            rating: modaldata.rating || '',
             stockQuantity: modaldata.stockQuantity || '',
             warrantyPeriod: modaldata.warrantyPeriod || '',
         });
@@ -107,7 +104,6 @@ const EditModal = ({ show, handleClose, modaldata, refreshProducts }) => {
             description: formData.description,
             manufacturer: formData.manufacturer,
             price: formData.price,
-            rating: formData.rating,
             stockQuantity: formData.stockQuantity,
             warrantyPeriod: formData.warrantyPeriod,
         }));

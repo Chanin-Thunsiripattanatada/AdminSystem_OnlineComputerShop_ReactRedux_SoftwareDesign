@@ -18,7 +18,6 @@ const ProductForm = () => {
         description: '',
         manufacturer: '',
         price: '',
-        rating: '',
         stockQuantity: '',
         warrantyPeriod: ''
     });
@@ -60,7 +59,6 @@ const ProductForm = () => {
             description: formData.description,
             manufacturer: formData.manufacturer,
             price: formData.price,
-            rating: formData.rating,
             stockQuantity: formData.stockQuantity,
             warrantyPeriod: formData.warrantyPeriod,
         }));
@@ -83,7 +81,6 @@ const ProductForm = () => {
                 description: '',
                 manufacturer: '',
                 price: '',
-                rating: '',
                 stockQuantity: '',
                 warrantyPeriod: '',
             });
