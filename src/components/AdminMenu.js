@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 import { useNavigate } from 'react-router-dom';
+import WebSocketNotification from "./WebSocketNotification";
 
 function AdminMenu() {
-    const { userLogout } = useAuth();
-    const { token } = useAuth();
+    const { userLogout,token,user } = useAuth();
+    const [ userData, setUserData ] = useState('');
     const navigate = useNavigate();
     const handleSubmitLogout = async (e) => {
         e.preventDefault();
@@ -18,13 +19,19 @@ function AdminMenu() {
             console.error('Logout failed', error);
         }
     }
+    useEffect(() => {
+        if (user) {
+            setUserData(user.username);
+        }
+    }, [user]); 
     return (
         <>
             <div className="sidebar shadow-lg text-center">
-                <p className='prompt-semibold'><img src={require("../assets/images/logo192.png")} width={"100"} alt="logo brand" /><br />ระบบจัดการร้าน<br />ComCraft
+                <p className='prompt-semibold'><img src={require("../assets/images/SD_LOGO.png")} width={"100"} alt="logo brand" /><br />ระบบจัดการร้าน<br />ComCraft
                 </p>
-                <p style={{ backgroundColor: "grey" }} className='prompt-semibold'>ผู้ใช้งาน : <br />
+                <p style={{ backgroundColor: "grey" }} className='prompt-semibold'>ผู้ใช้งาน : {userData ? userData : ''}<br />
                 </p>
+                <WebSocketNotification />
                 <Link class="dropdown-toggle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                     จัดการข้อมูลสินค้า
                 </Link>

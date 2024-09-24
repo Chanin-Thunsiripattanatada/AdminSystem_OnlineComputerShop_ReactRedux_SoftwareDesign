@@ -15,7 +15,7 @@ function LoginPage() {
                                     <div className="card-body p-md-5 mx-md-4">
                                         <div className="text-center">
                                             <img
-                                                src={require("../../assets/images/logo192.png")}
+                                                src={require("../../assets/images/SD_LOGO.png")}
                                                 style={{ width: "185px" }}
                                                 alt="logo"
                                             />
@@ -30,11 +30,9 @@ function LoginPage() {
                                     <div className="text-white px-3 py-4 p-md-5 mx-md-4">
                                         <h4 className="mb-4">We are more than just a company</h4>
                                         <p className="small mb-0">
-                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-                                            do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                            Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                                            laboris nisi ut aliquip ex ea commodo consequat.
-                                            <br /><Link to="./ระบบจัดการ">to system</Link>
+                                            ยินดีต้อนรับสู่ <strong>ComCraft</strong> ร้านคอมพิวเตอร์ที่ตอบโจทย์ทุกความต้องการด้านเทคโนโลยีของคุณ!
+                                            พบกับสินค้าคุณภาพสูงตั้งแต่คอมพิวเตอร์ โน้ตบุ๊ก อุปกรณ์เสริม และอีกมากมาย พร้อมทีมงานผู้เชี่ยวชาญที่พร้อมให้คำแนะนำและบริการคุณ
+                                            <br />เพียงแค่คุณ วันนี้ เพื่อรับสิทธิพิเศษต่าง ๆ เช่น ส่วนลดสมาชิก โปรโมชั่นสุดคุ้ม และอัปเดตข่าวสารใหม่ล่าสุดจาก ComCraft!
                                         </p>
                                     </div>
 

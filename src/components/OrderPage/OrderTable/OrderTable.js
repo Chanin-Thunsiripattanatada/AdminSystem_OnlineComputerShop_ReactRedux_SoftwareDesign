@@ -23,10 +23,15 @@ const OrderTable = () => {
 
     const [modalId, setModalId] = useState('');
     const [modalData, setModalData] = useState(null);
+    
+    const handleRefreshOrders = async () => {
+        dispatch(retrieveOrders(token));
+    };
 
     useEffect(() => {
-        dispatch(retrieveOrders(token));
+        handleRefreshOrders();
     }, [dispatch]);
+    
 
     const handleCloseView = () => setShowView(false);
     const handleShowView = async (order) => {
@@ -97,9 +102,9 @@ const OrderTable = () => {
                                 onChange={(e) => setFilterShippingStatus(e.target.value)}
                             >
                                 <option value="">Filter by Shipping Status</option>
-                                <option value="ยังไม่จัดส่ง">ยังไม่จัดส่ง</option>
-                                <option value="ส่งสินค้าแล้ว">ส่งสินค้าแล้ว</option>
-                                <option value="จัดส่งถึงที่แล้ว">จัดส่งถึงที่แล้ว</option>
+                                <option value="not-shipped">ยังไม่จัดส่ง (not-shipped)</option>
+                                <option value="shipped">ส่งสินค้าแล้ว (shipped)</option>
+                                <option value="delivered">จัดส่งถึงที่แล้ว (delivered)</option>
                             </Form.Control>
                         </div>
                         <div className="col-md-6">
@@ -108,11 +113,11 @@ const OrderTable = () => {
                                 value={filterStatus}
                                 onChange={(e) => setFilterStatus(e.target.value)}
                             >
-                                <option value="">Filter by Status</option>
-                                <option value="รอการยืนยัน">รอการยืนยัน</option>
-                                <option value="กำลังตรวจสอบ">กำลังตรวจสอบ</option>
-                                <option value="ชำระเงินแล้ว">ชำระเงินแล้ว</option>
-                                <option value="ยกเลิกการสั่งซื้อ">ยกเลิกการสั่งซื้อ</option>
+                                <option value="">Filter by Shipping Status</option>
+                                <option value="pending-confirmation">รอการยืนยัน (pending-confirmation)</option>
+                                <option value="under-review">กำลังตรวจสอบ (under-review)</option>
+                                <option value="paid">ชำระเงินแล้ว (paid)</option>
+                                <option value="order-cancelled">ยกเลิกการสั่งซื้อ (order-cancelled)</option>
                             </Form.Control>
                         </div>
                     </div>
@@ -168,7 +173,7 @@ const OrderTable = () => {
                     </div>
 
                     <ViewModal show={showView} handleClose={handleCloseView} modaldata={modalData} />
-                    <EditModal show={showEdit} handleClose={handleCloseEdit} modaldata={modalData} />
+                    <EditModal show={showEdit} handleClose={handleCloseEdit} modaldata={modalData} refreshOrders={handleRefreshOrders} />
                     <DeleteModal show={showDelete} handleClose={handleCloseDelete} modalId={modalId} />
                 </div>
             </div>

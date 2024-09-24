@@ -34,7 +34,7 @@ class OrderDataService {
     }
 
     update(token, id, data) {
-        return http.put(`/user/orders/${id}`, data, {
+        return http.put(`/admin/orders/${id}`, data, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }

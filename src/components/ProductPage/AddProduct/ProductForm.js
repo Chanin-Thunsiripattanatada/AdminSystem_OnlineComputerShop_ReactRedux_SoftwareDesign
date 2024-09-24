@@ -3,7 +3,6 @@ import { Button, Form, Row, Col } from 'react-bootstrap';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // Import Quill styles
 import { createProduct } from '../../../actions/products';
-import { createImage } from '../../../actions/images';
 import { retrieveCategorys } from '../../../actions/categories';
 import { useDispatch, useSelector } from 'react-redux';
 import { useAuth } from '../../../auth/AuthContext';

@@ -20,7 +20,7 @@ function App() {
           <Routes>
             <Route path="/" >
               <Route index element={<LoginPage />}></Route>
-              <Route path="/ระบบจัดการ" element={<ProtectedRoute><AdminMenu /><WebSocketNotification /></ProtectedRoute>}>
+              <Route path="/ระบบจัดการ" element={<ProtectedRoute><AdminMenu /></ProtectedRoute>}>
                 <Route path="จัดการรายการสินค้า" element={<><ProductTablePage /></>} />
                 <Route path="เพิ่มรายการสินค้า" element={<AddProductPage />} />
                 <Route path="จัดการรายการซื้อขายลูกค้า" element={<OrderTablePage />} />
