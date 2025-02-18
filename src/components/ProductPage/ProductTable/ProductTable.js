@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { retrieveProducts, deleteProduct, updateProduct } from '../../../actions/products';
+import { retrieveProducts} from '../../../actions/products';
 import { Button } from 'react-bootstrap';
 import ViewModal from './ViewModal';
 import EditModal from './EditModal';
@@ -34,24 +34,13 @@ const ProductTable = () => {
         setModalId(id);
         setShowDelete(true);
     };
-
-    useEffect(() => {
+    
+    const handleRefreshProducts = async () => {
         dispatch(retrieveProducts());
-        const logdata = () => { console.log(products) }
-        logdata();
+    };
+    useEffect(() => {
+        handleRefreshProducts();
     }, [dispatch]);
-
-    const handleDelete = () => {
-        dispatch(deleteProduct(modalId));
-        handleCloseDelete();
-    };
-
-    const handleSaveEdit = (updatedProduct) => {
-        dispatch(updateProduct(modalData.productId, updatedProduct));
-        handleCloseEdit();
-    };
-
-    const getImageDataUrl = (base64String, type) => `data:${type};base64,${base64String}`;
 
     return (
         <div class="card shadow-lg bg-body rounded">
@@ -111,8 +100,8 @@ const ProductTable = () => {
                     
 
                     <ViewModal show={showView} handleClose={handleCloseView} modaldata={modalData} />
-                    <EditModal show={showEdit} handleClose={handleCloseEdit} modaldata={modalData} onSave={handleSaveEdit} />
-                    <DeleteModal show={showDelete} handleClose={handleCloseDelete} onDelete={handleDelete} />
+                    <EditModal show={showEdit} handleClose={handleCloseEdit} modaldata={modalData} refreshProducts={handleRefreshProducts} />
+                    <DeleteModal show={showDelete} handleClose={handleCloseDelete} modalId={modalId} />
                 </div>
             </div>
         </div>
